@@ -28,7 +28,3 @@ UIQuit::UIQuit(Game* game)
 		}
 	);
 }
-
-UIQuit::~UIQuit()
-{
-}

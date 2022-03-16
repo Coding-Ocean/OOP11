@@ -32,7 +32,7 @@ Ship::Ship(Game* game)
 	mRect->SetHalfW(10);
 	mRect->SetHalfH(30);
 
-	mHP = 50;
+	mHP = 20;
 
 	GetGame()->SetShip(this);
 }

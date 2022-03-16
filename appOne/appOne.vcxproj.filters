@@ -35,6 +35,7 @@
     <ClCompile Include="UIPause.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIQuit.cpp" />
+    <ClCompile Include="UIGaugeResult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -54,5 +55,6 @@
     <ClInclude Include="UIPause.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIQuit.h" />
+    <ClInclude Include="UIGaugeResult.h" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 #include "UIPause.h"
 #include "Ufo.h"
 #include "Ship.h"
+#include "UIGaugeResult.h"
 
 bool Game::Initialize()
 {
@@ -39,6 +40,8 @@ bool Game::Initialize()
     bg->SetScrollSpeed(200);
     bg->SetImage(loadImage("Assets\\Stars.png"));
     bg->SetImage(loadImage("Assets\\Stars.png"));
+
+    new UIGaugeResult(this);
 
     initDeltaTime();
     return true;

@@ -11,7 +11,7 @@
 Ufo::Ufo(Game* game)
 	:Actor(game)
 	, mTimer(0.0f)
-	, mInterval(0.5f)
+	, mInterval(0.1f)
 	, mTheta(0.0f)
 	, mRect(nullptr)
 	, mHP(0)
@@ -32,7 +32,7 @@ Ufo::Ufo(Game* game)
 	mRect->SetHalfW(15);
 	mRect->SetHalfH(20);
 
-	mHP = 20;
+	mHP = 1;
 
 	GetGame()->AddUfo(this);
 }

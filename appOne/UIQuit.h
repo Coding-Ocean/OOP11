@@ -5,5 +5,4 @@ class UIQuit : public UIScreen
 {
 public:
 	UIQuit(class Game* game);
-	~UIQuit();
 };
