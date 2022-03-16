@@ -197,7 +197,7 @@ void Game::UpdateGame()
     {
         if ((*iter)->GetState() == UIScreen::EClosing)
         {
-            delete* iter;
+            delete *iter;
             iter = mUIStack.erase(iter);
         }
         else
@@ -228,6 +228,7 @@ void Game::GenerateOutput()
     }
 
     printSize(25);
+    fill(200);
     print("レーザー発射:マウス左ボタン");
     print("一時停止　　:スペースキー");
 }

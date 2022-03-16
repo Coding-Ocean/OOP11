@@ -7,6 +7,7 @@
 UIScreen::UIScreen(Game* game)
 	:mGame(game)
 	, mState(EActive)
+	, mBackImg(-1)
 	, mTextSize(40)
 	, mTitlePos(width / 2, 100.0f)
 	, mNextButtonPos(width / 2, 170.0f)
@@ -55,6 +56,12 @@ void UIScreen::ProcessInput()
 }
 void UIScreen::Draw()
 {
+	//背景画像表示
+	if (mBackImg >= 0)
+	{
+		image(mBackImg, mBackPos.x, mBackPos.y);
+	}
+	
 	// タイトル表示（もしあったら）
 	textSize(mTextSize);
 	fill(mTitleColor);

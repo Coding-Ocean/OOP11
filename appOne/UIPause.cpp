@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "graphic.h"
 #include "input.h"
+#include "UIQuit.h"
 
 UIPause::UIPause(Game* game)
 	:UIScreen(game)
@@ -18,7 +19,7 @@ UIPause::UIPause(Game* game)
 
 	AddButton("Quit",
 		[this]() {
-			mGame->SetState(Game::EQuit);
+			new UIQuit(mGame);
 		}
 	);
 }

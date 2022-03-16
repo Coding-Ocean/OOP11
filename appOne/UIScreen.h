@@ -32,6 +32,10 @@ protected:
 	// ステート
 	UIState mState;
 
+	//背景画像
+	int mBackImg;
+	VECTOR2 mBackPos;
+
 	//タイトル文字とその属性
 	std::string mTitle;
 	COLOR mTitleColor;

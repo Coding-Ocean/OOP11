@@ -10,9 +10,6 @@ public:
 		const VECTOR2& pos, const VECTOR2& dims);
 	~Button();
 
-	// ボタン名のセット
-	void SetName(const char* name);
-
 	// Getters/setters
 	const std::string& GetName() { return mName; }
 	const VECTOR2& GetPosition() const { return mPosition; }

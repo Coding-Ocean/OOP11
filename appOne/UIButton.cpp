@@ -13,11 +13,6 @@ Button::~Button()
 {
 }
 
-void Button::SetName(const char* name)
-{
-	mName = name;
-}
-
 bool Button::ContainsPoint(const VECTOR2& pt) const
 {
 	bool no =
@@ -30,7 +25,7 @@ bool Button::ContainsPoint(const VECTOR2& pt) const
 
 void Button::OnClick()
 {
-	// Call attached handler, if it exists
+	// アタッチされた関数ハンドラがあれば呼び出す。
 	if (mOnClick)
 	{
 		mOnClick();

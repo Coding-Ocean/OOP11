@@ -169,6 +169,7 @@
     <ClCompile Include="Ufo.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIPause.cpp" />
+    <ClCompile Include="UIQuit.cpp" />
     <ClCompile Include="UIScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +194,7 @@
     <ClInclude Include="Ufo.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIPause.h" />
+    <ClInclude Include="UIQuit.h" />
     <ClInclude Include="UIScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
