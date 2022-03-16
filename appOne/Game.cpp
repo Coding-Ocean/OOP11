@@ -2,8 +2,10 @@
 #include "framework.h"
 #include "graphic.h"
 #include "window.h"
+#include "input.h"
 #include "BGSpriteComponent.h"
 #include "AnimSpriteComponent.h"
+#include "UIScreen.h"
 #include "Ufo.h"
 #include "Ship.h"
 
@@ -58,6 +60,12 @@ void Game::Shutdown()
     {
         delete mActors.back();
     }
+
+    while (!mUIStack.empty())
+    {
+        delete mUIStack.back();
+        mUIStack.pop_back();
+    }
 }
 
 void Game::AddActor(Actor* actor)
@@ -110,58 +118,121 @@ void Game::RemoveSprite(SpriteComponent* sprite)
     mSprites.erase(iter);
 }
 
+void Game::PushUI(UIScreen* uiScreen)
+{
+    mUIStack.emplace_back(uiScreen);
+}
+
 void Game::ProcessInput()
 {
-    mUpdatingActors = true;
-    for (auto actor : mActors)
+    if (mGameState == EGameplay)
     {
-        actor->ProcessInput();
+        mUpdatingActors = true;
+        for (auto actor : mActors)
+        {
+            actor->ProcessInput();
+        }
+        mUpdatingActors = false;
+
+        //UIテスト
+        if (isTrigger(KEY_SPACE))
+        {
+            auto ui = new UIScreen(this);
+            ui->SetTitle("Pause");
+            mGameState = EPaused;
+        }
     }
-    mUpdatingActors = false;
+    else if (!mUIStack.empty())
+    {
+        if (isTrigger(KEY_SPACE))
+        {
+            mUIStack.back()->CloseMe();
+            mGameState = EGameplay;
+        }
+    }
 }
 
 void Game::UpdateGame()
 {
     setDeltaTime();
 
-    // mActors更新(更新中にnewされたActorはmPendingActorsに追加される)
-    mUpdatingActors = true;
-    for (auto actor : mActors)
+    if (mGameState == EGameplay)
     {
-        actor->Update();
-    }
-    mUpdatingActors = false;
-
-    // 追加を延期したActorをmActorsに追加する
-    for (auto pending : mPendingActors)
-    {
-        mActors.emplace_back(pending);
-    }
-    mPendingActors.clear();
-
-    // Dead状態のActorを直下のdeadActorsに抽出する
-    std::vector<Actor*> deadActors;
-    for (auto actor : mActors)
-    {
-        if (actor->GetState() == Actor::EDead)
+        // mActors更新(更新中にnewされたActorはmPendingActorsに追加される)
+        mUpdatingActors = true;
+        for (auto actor : mActors)
         {
-            deadActors.emplace_back(actor);
+            actor->Update();
+        }
+        mUpdatingActors = false;
+
+        // 追加を延期したActorをmActorsに追加する
+        for (auto pending : mPendingActors)
+        {
+            mActors.emplace_back(pending);
+        }
+        mPendingActors.clear();
+
+        // Dead状態のActorを直下のdeadActorsに抽出する
+        std::vector<Actor*> deadActors;
+        for (auto actor : mActors)
+        {
+            if (actor->GetState() == Actor::EDead)
+            {
+                deadActors.emplace_back(actor);
+            }
+        }
+        // deadActorsを消去する(mActorsからも取り除かれる)
+        for (auto actor : deadActors)
+        {
+            delete actor;
         }
     }
-    // deadActorsを消去する(mActorsからも取り除かれる)
-    for (auto actor : deadActors)
+
+    // UI更新
+    for (auto ui : mUIStack)
     {
-        delete actor;
+        if (ui->GetState() == UIScreen::EActive)
+        {
+            ui->Update();
+        }
+    }
+    // UIのdelete
+    auto iter = mUIStack.begin();
+    while (iter != mUIStack.end())
+    {
+        if ((*iter)->GetState() == UIScreen::EClosing)
+        {
+            delete* iter;
+            iter = mUIStack.erase(iter);
+        }
+        else
+        {
+            ++iter;
+        }
+    }
+
+    //ゲーム終了
+    if (mGameState == EQuit)
+    {
+        closeWindow();
     }
 }
 
 void Game::GenerateOutput()
 {
     clear(60);
+    
     for (auto sprite : mSprites)
     {
         sprite->Draw();
     }
+
+    for (auto ui : mUIStack)
+    {
+        ui->Draw();
+    }
+
     printSize(25);
     print("レーザー発射:マウス左ボタン");
     print("一時停止　　:スペースキー");

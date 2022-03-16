@@ -31,6 +31,7 @@
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="ShipLaser.cpp" />
     <ClCompile Include="RectComponent.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -46,5 +47,6 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="ShipLaser.h" />
     <ClInclude Include="RectComponent.h" />
+    <ClInclude Include="UIScreen.h" />
   </ItemGroup>
 </Project>

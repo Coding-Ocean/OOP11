@@ -12,6 +12,16 @@ public:
 	void RemoveActor(class Actor* actor);
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
+
+	// UI
+	void PushUI(class UIScreen* uiScreen);
+	enum GameState
+	{
+		EGameplay,
+		EPaused,
+		EQuit
+	};
+	void SetState(GameState gameState) { mGameState = gameState; }
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -19,6 +29,10 @@ private:
 
 	std::vector<class Actor*>mActors;
 	std::vector<class SpriteComponent*>mSprites;
+
+	// UI
+	std::vector<class UIScreen*>mUIStack;
+	GameState mGameState;
 
 	// Update’†ƒtƒ‰ƒbƒO
 	bool mUpdatingActors;

@@ -167,6 +167,7 @@
     <ClCompile Include="ShipLaser.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Ufo.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -188,6 +189,7 @@
     <ClInclude Include="ShipLaser.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Ufo.h" />
+    <ClInclude Include="UIScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
