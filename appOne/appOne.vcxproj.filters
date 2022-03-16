@@ -33,6 +33,7 @@
     <ClCompile Include="RectComponent.cpp" />
     <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="UIPause.cpp" />
+    <ClCompile Include="UIButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -50,5 +51,6 @@
     <ClInclude Include="RectComponent.h" />
     <ClInclude Include="UIScreen.h" />
     <ClInclude Include="UIPause.h" />
+    <ClInclude Include="UIButton.h" />
   </ItemGroup>
 </Project>

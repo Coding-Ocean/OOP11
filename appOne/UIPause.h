@@ -5,7 +5,7 @@ class UIPause :
 {
 public:
     UIPause(class Game* game);
-    ~UIPause() {};
+    ~UIPause();
     void ProcessInput() override;
     void Draw() override;
 };

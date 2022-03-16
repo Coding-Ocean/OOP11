@@ -1,5 +1,5 @@
 #pragma once
-#include<string>
+#include<functional>
 #include"COLOR.h"
 #include"VECTOR2.h"
 //ユーザーインターフェイス基底クラス
@@ -7,9 +7,9 @@ class UIScreen
 {
 public:
 	UIScreen(class Game* game);
-	virtual ~UIScreen() {};
+	virtual ~UIScreen();
 	// 派生クラスでオーバーライド可能
-	virtual void ProcessInput() {};
+	virtual void ProcessInput();
 	virtual void Update(){};
 	virtual void Draw();
 	// UIステート。アクティブか、閉じるか
@@ -24,8 +24,13 @@ public:
 	UIState GetState() const { return mState; }
 	// UIタイトルを設定
 	void SetTitle(const char* text) { mTitle = text; }
+	// ボタンを追加
+	void AddButton(const std::string& name, std::function<void()> onClick);
 protected:
 	class Game* mGame;
+
+	// ステート
+	UIState mState;
 
 	//タイトル文字とその属性
 	std::string mTitle;
@@ -33,7 +38,11 @@ protected:
 	VECTOR2 mTitlePos;
 	float mTextSize;
 
-	// ステート
-	UIState mState;
+	//ボタンとその属性
+	std::vector<class Button*> mButtons;
+	VECTOR2 mNextButtonPos;
+	int mButtonOnImg;
+	int mButtonOffImg;
+
 };
 

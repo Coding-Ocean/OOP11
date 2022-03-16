@@ -6,16 +6,35 @@
 UIPause::UIPause(Game* game)
 	:UIScreen(game)
 {
-	mTitle = "Pause";
 	mGame->SetState(Game::EPaused);
+	
+	mTitle = "Pause";
+
+	AddButton("Resume",
+		[this]() {
+			CloseMe();
+		}
+	);
+
+	AddButton("Quit",
+		[this]() {
+			mGame->SetState(Game::EQuit);
+		}
+	);
+}
+
+UIPause::~UIPause()
+{
+	mGame->SetState(Game::EGameplay);
 }
 
 void UIPause::ProcessInput()
 {
+	UIScreen::ProcessInput();
+
 	if (isTrigger(KEY_SPACE))
 	{
 		CloseMe();
-		mGame->SetState(Game::EGameplay);
 	}
 }
 
