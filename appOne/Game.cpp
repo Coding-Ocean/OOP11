@@ -5,7 +5,7 @@
 #include "input.h"
 #include "BGSpriteComponent.h"
 #include "AnimSpriteComponent.h"
-#include "UIScreen.h"
+#include "UIPause.h"
 #include "Ufo.h"
 #include "Ship.h"
 
@@ -134,21 +134,15 @@ void Game::ProcessInput()
         }
         mUpdatingActors = false;
 
-        //UIƒeƒXƒg
+        //Pause
         if (isTrigger(KEY_SPACE))
         {
-            auto ui = new UIScreen(this);
-            ui->SetTitle("Pause");
-            mGameState = EPaused;
+            new UIPause(this);
         }
     }
     else if (!mUIStack.empty())
     {
-        if (isTrigger(KEY_SPACE))
-        {
-            mUIStack.back()->CloseMe();
-            mGameState = EGameplay;
-        }
+        mUIStack.back()->ProcessInput();
     }
 }
 

@@ -167,6 +167,7 @@
     <ClCompile Include="ShipLaser.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Ufo.cpp" />
+    <ClCompile Include="UIPause.cpp" />
     <ClCompile Include="UIScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="ShipLaser.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Ufo.h" />
+    <ClInclude Include="UIPause.h" />
     <ClInclude Include="UIScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
