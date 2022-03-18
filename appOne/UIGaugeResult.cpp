@@ -7,7 +7,7 @@ UIGaugeResult::UIGaugeResult(Game* game)
 	:UIScreen(game)
 	, mPos(300, height - 30)
 {
-	mHp = mGame->GetShip()->GetHP();
+	mHp = (float)mGame->GetShip()->GetHP();
 	mWidth = 10;
 	mPos.x = (width - mHp * mWidth) / 2;
 }

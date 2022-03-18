@@ -10,13 +10,13 @@ UIScreen::UIScreen(Game* game)
 	, mBackImg(-1)
 	, mTextSize(40)
 	, mTitlePos(width / 2, 100.0f)
-	, mNextButtonPos(width / 2, 170.0f)
+	, mButtonPos(width / 2, 170.0f)
 {
 	// GameのUIStackに追加
 	mGame->PushUI(this);
 	// ボタン画像
-	mButtonOnImg = loadImage("Assets/ButtonYellow.png");
-	mButtonOffImg = loadImage("Assets/ButtonBlue.png");
+	Button::SetButtonOnImg(loadImage("Assets/ButtonYellow.png"));
+	Button::SetButtonOffImg(loadImage("Assets/ButtonBlue.png"));
 }
 
 UIScreen::~UIScreen()
@@ -38,35 +38,31 @@ void UIScreen::ProcessInput()
 		// 全ボタンのチェック
 		for (auto b : mButtons)
 		{
-			// ロールオーバーしていたらハイライト
+			// ロールオーバーしていたら
 			if (b->ContainsPoint(mousePos))
 			{
-				b->SetHighlighted(true);
 				if (isTrigger(MOUSE_LBUTTON))
 				{
 					b->OnClick();
 				}
 			}
-			else
-			{
-				b->SetHighlighted(false);
-			}
 		}
 	}
 }
+
 void UIScreen::Draw()
 {
-	//背景画像表示
+	// 背景画像表示（もしあったら）
 	if (mBackImg >= 0)
 	{
 		image(mBackImg, mBackPos.x, mBackPos.y);
 	}
 	
 	// タイトル表示（もしあったら）
-	textSize(mTextSize);
-	fill(mTitleColor);
 	if (mTitle.c_str())
 	{
+		textSize(mTextSize);
+		fill(mTitleColor);
 		text(mTitle.c_str(),
 			mTitlePos.x - mTitle.length() * mTextSize / 4,//半角文字のみ対応
 			mTitlePos.y + mTextSize / 2
@@ -76,14 +72,7 @@ void UIScreen::Draw()
 	// ボタン表示（もしあったら）
 	for (auto b : mButtons)
 	{
-		// ボタン画像表示
-		int buttonImg = b->GetHighlighted() ? mButtonOnImg : mButtonOffImg;
-		VECTOR2 pos = b->GetPosition();
-		image(buttonImg, pos.x, pos.y);
-		// ボタン文字表示
-		pos.x -= b->GetName().length() * mTextSize / 4;//半角文字のみ対応
-		pos.y += mTextSize / 2 - 2;
-		text(b->GetName().c_str(), pos.x, pos.y);
+		b->Draw();
 	}
 }
 
@@ -92,12 +81,12 @@ void UIScreen::CloseMe()
 	mState = EClosing;
 }
 
-void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
+//ボタンは縦に並んで配置される
+void UIScreen::AddButton(const char* name, std::function<void()> onClick)
 {
-	VECTOR2 dims = getTextureSize(mButtonOnImg);
-	Button* b = new Button(name.c_str(), onClick, mNextButtonPos, dims);
+	Button* b = new Button(name, onClick, mButtonPos);
 	mButtons.emplace_back(b);
 
 	// 次に追加されるボタンの位置を計算しておく（画像の高さ＋間隔）
-	mNextButtonPos.y += dims.y + 20.0f;
+	mButtonPos.y += b->GetDimensions().y + 20.0f;
 }

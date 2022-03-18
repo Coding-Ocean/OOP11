@@ -24,8 +24,8 @@ public:
 	UIState GetState() const { return mState; }
 	// UIタイトルを設定
 	void SetTitle(const char* text) { mTitle = text; }
-	// ボタンを追加
-	void AddButton(const std::string& name, std::function<void()> onClick);
+	// ボタンを追加（縦に配置されていく）
+	void AddButton(const char* name, std::function<void()> onClick);
 protected:
 	class Game* mGame;
 
@@ -42,11 +42,8 @@ protected:
 	VECTOR2 mTitlePos;
 	float mTextSize;
 
-	//ボタンとその属性
+	//ボタン
 	std::vector<class Button*> mButtons;
-	VECTOR2 mNextButtonPos;
-	int mButtonOnImg;
-	int mButtonOffImg;
-
+	VECTOR2 mButtonPos;
 };
 

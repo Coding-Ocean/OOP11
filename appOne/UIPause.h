@@ -9,4 +9,3 @@ public:
     void ProcessInput() override;
     void Draw() override;
 };
-

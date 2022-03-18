@@ -8,13 +8,13 @@ UIQuit::UIQuit(Game* game)
 	//各パーツ位置調整
 	mBackPos.set(width / 2, 350.0f);
 	mTitlePos.set(width / 2, mBackPos.y - 100);
-	mNextButtonPos.set(width/2, mTitlePos.y + 70);
+	mButtonPos.set(width/2, mTitlePos.y + 70);
 	
 	mBackImg = loadImage("Assets/DialogBG.png");
 
 	mTitle = "Quit";
 	mTitleColor = COLOR(0, 0, 0);
-	mTextSize = 30;
+	mTextSize = 40;
 	
 	AddButton("OK",
 		[this]() {
