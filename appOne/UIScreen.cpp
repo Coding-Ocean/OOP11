@@ -70,6 +70,7 @@ void UIScreen::Draw()
 	}
 
 	// ボタン表示（もしあったら）
+	fill(mButtonTextColor);
 	for (auto b : mButtons)
 	{
 		b->Draw();

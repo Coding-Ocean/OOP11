@@ -45,5 +45,6 @@ protected:
 	//ƒ{ƒ^ƒ“
 	std::vector<class Button*> mButtons;
 	VECTOR2 mButtonPos;
+	COLOR mButtonTextColor;
 };
 

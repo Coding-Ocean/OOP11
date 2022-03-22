@@ -31,6 +31,9 @@ void Laser::UpdateActor()
 	}
 	else 
 	{
+		//ƒQ[ƒ€ƒNƒŠƒAŽž‚ÍÕ“Ë”»’è‚µ‚È‚¢
+		if (GetGame()->GetUfos().empty())return;
+
 		//Ship‚Æ‚ÌÕ“Ë”»’è
 		if(auto ship = GetGame()->GetShip())
 		{

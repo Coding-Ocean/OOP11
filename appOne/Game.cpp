@@ -13,36 +13,7 @@
 bool Game::Initialize()
 {
     window(1024, 768, full);
-
-    new Ship(this);
-
-    auto ufo = new Ufo(this);
-    ufo->SetPosition(VECTOR2(width / 2-100, 100));
-
-    ufo = new Ufo(this);
-    ufo->SetPosition(VECTOR2(width / 2+100, 100));
-    ufo->SetTheta(3.14f);
-
-    ufo = new Ufo(this);
-    ufo->SetPosition(VECTOR2(width / 2-100, 100));
-    ufo->SetTheta(3.14f);
-
-    ufo = new Ufo(this);
-    ufo->SetPosition(VECTOR2(width / 2+100, 100));
-
-    Actor* a;
-    a = new Actor(this);
-    auto bg = new BGSpriteComponent(a, 50);
-    bg->SetScrollSpeed(100);
-    bg->SetImage(loadImage("Assets\\FarBack01.png"));
-    bg->SetImage(loadImage("Assets\\FarBack02.png"));
-    bg = new BGSpriteComponent(a, 60);
-    bg->SetScrollSpeed(200);
-    bg->SetImage(loadImage("Assets\\Stars.png"));
-    bg->SetImage(loadImage("Assets\\Stars.png"));
-
-    new UIGaugeResult(this);
-
+    LoadGame();
     initDeltaTime();
     return true;
 }
@@ -59,16 +30,7 @@ void Game::RunLoop()
 
 void Game::Shutdown()
 {
-    while (!mActors.empty())
-    {
-        delete mActors.back();
-    }
-
-    while (!mUIStack.empty())
-    {
-        delete mUIStack.back();
-        mUIStack.pop_back();
-    }
+    RemoveGame();
 }
 
 void Game::AddActor(Actor* actor)
@@ -128,6 +90,14 @@ void Game::PushUI(UIScreen* uiScreen)
 
 void Game::ProcessInput()
 {
+    //ゲーム終了時はEGameplayステートのままにしたい。
+    //また、new UIPauseすると反応しなくなるので、
+    //ここにUI ProcessInput()を持ってきた。
+    if (!mUIStack.empty())
+    {
+        mUIStack.back()->ProcessInput();
+    }
+
     if (mGameState == EGameplay)
     {
         mUpdatingActors = true;
@@ -142,10 +112,6 @@ void Game::ProcessInput()
         {
             new UIPause(this);
         }
-    }
-    else if (!mUIStack.empty())
-    {
-        mUIStack.back()->ProcessInput();
     }
 }
 
@@ -185,6 +151,16 @@ void Game::UpdateGame()
             delete actor;
         }
     }
+    else if (mGameState == ERestart)
+    {
+        RemoveGame();
+        LoadGame();
+        mGameState = EGameplay;
+    }
+    else if (mGameState == EQuit)
+    {
+        closeWindow();
+    }
 
     // UI更新
     for (auto ui : mUIStack)
@@ -208,32 +184,64 @@ void Game::UpdateGame()
             ++iter;
         }
     }
-
-    //ゲーム終了
-    if (mGameState == EQuit)
-    {
-        closeWindow();
-    }
 }
 
 void Game::GenerateOutput()
 {
     clear(60);
-    
     for (auto sprite : mSprites)
     {
         sprite->Draw();
     }
-
     for (auto ui : mUIStack)
     {
         ui->Draw();
     }
+}
 
-    printSize(25);
-    fill(200);
-    print("レーザー発射:マウス左ボタン");
-    print("一時停止　　:スペースキー");
+void Game::LoadGame()
+{
+    new Ship(this);
+
+    auto ufo = new Ufo(this);
+    ufo->SetPosition(VECTOR2(width / 2 - 100, 100));
+
+    ufo = new Ufo(this);
+    ufo->SetPosition(VECTOR2(width / 2 + 100, 100));
+    ufo->SetTheta(3.14f);
+
+    ufo = new Ufo(this);
+    ufo->SetPosition(VECTOR2(width / 2 - 100, 100));
+    ufo->SetTheta(3.14f);
+
+    ufo = new Ufo(this);
+    ufo->SetPosition(VECTOR2(width / 2 + 100, 100));
+
+    Actor* a;
+    a = new Actor(this);
+    auto bg = new BGSpriteComponent(a, 50);
+    bg->SetScrollSpeed(100);
+    bg->SetImage(loadImage("Assets\\FarBack01.png"));
+    bg->SetImage(loadImage("Assets\\FarBack02.png"));
+    bg = new BGSpriteComponent(a, 60);
+    bg->SetScrollSpeed(200);
+    bg->SetImage(loadImage("Assets\\Stars.png"));
+    bg->SetImage(loadImage("Assets\\Stars.png"));
+
+    new UIGaugeResult(this);
+}
+void Game::RemoveGame()
+{
+    while (!mActors.empty())
+    {
+        delete mActors.back();
+    }
+
+    while (!mUIStack.empty())
+    {
+        delete mUIStack.back();
+        mUIStack.pop_back();
+    }
 }
 
 //このゲームに固有のロジック

@@ -2,6 +2,7 @@
 #include "graphic.h"
 #include "Game.h"
 #include "Ship.h"
+#include "UIQuit.h"
 
 UIGaugeResult::UIGaugeResult(Game* game)
 	:UIScreen(game)
@@ -10,6 +11,7 @@ UIGaugeResult::UIGaugeResult(Game* game)
 	mHp = (float)mGame->GetShip()->GetHP();
 	mWidth = 10;
 	mPos.x = (width - mHp * mWidth) / 2;
+	mSetFlag = false;
 }
 
 void UIGaugeResult::Draw()
@@ -31,21 +33,41 @@ void UIGaugeResult::Draw()
 			fill(255, 0, 0, 128);
 		rect(mPos.x, mPos.y, hp * mWidth, 20);
 	}
-	else
+
+	bool ufosEmpty = mGame->GetUfos().empty();
+	if ((ship == nullptr || ufosEmpty)&&mSetFlag==false)
 	{
-		//GameOver Text
-		textSize(200);
-		fill(255, 0, 0);
-		text("GameOver", (width-800)/2, height / 2);
-	}
-	if (mGame->GetUfos().empty())
-	{
-		//GameClear Text
-		textSize(200);
-		fill(255, 255, 0);
-		text("GameClear", (width - 900) / 2, height / 2);
+		if (ship == nullptr) {
+			mTitle = "GameOver";
+			mTitleColor = COLOR(255, 0, 0);
+		}
+		else {
+			mTitle = "GameClear";
+			mTitleColor = COLOR(255, 255, 0);
+		}
+
+		mSetFlag = true;
+		mTitlePos.y = height / 2;
+		mTextSize = 200;
+		
+		AddButton("Restart",
+			[this]() {
+				mGame->SetState(Game::ERestart);
+			}
+		);
+		AddButton("Quit",
+			[this]() {
+				new UIQuit(mGame);
+			}
+		);
 	}
 
 	//デフォルト設定に戻す
 	rectMode(CENTER);
+	UIScreen::Draw();
+
+	printSize(25);
+	fill(200);
+	print("レーザー発射:マウス左ボタン");
+	print("一時停止　　:スペースキー");
 }

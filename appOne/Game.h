@@ -19,13 +19,17 @@ public:
 	{
 		EGameplay,
 		EPaused,
+		ERestart,
 		EQuit
 	};
 	void SetState(GameState gameState) { mGameState = gameState; }
+	void LoadGame();
+	void RemoveGame();
 private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
+
 
 	std::vector<class Actor*>mActors;
 	std::vector<class SpriteComponent*>mSprites;

@@ -10,5 +10,6 @@ private:
     VECTOR2 mPos;
     float mHp;
     float mWidth;
+    bool mSetFlag;
 };
 

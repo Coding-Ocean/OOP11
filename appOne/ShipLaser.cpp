@@ -30,6 +30,9 @@ void ShipLaser::UpdateActor()
 		SetState(EDead);
 	}
 	else{
+		//ゲームオーバー時は衝突判定しない
+		if (GetGame()->GetShip() == nullptr)return;
+
 		//衝突判定
 		for (auto ufo : GetGame()->GetUfos()) {
 			if (Intersect(mRect, ufo->GetRect()))
